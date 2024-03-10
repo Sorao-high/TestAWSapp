@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>クイズ結果</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>クイズ結果</h1>
+        </div>
+    </header>
+    <div class="content container">
+        <p>{{ message }}</p>
+        <a href="{% url 'quiz' next_question_id %}" class="btn">次の問題へ</a>
+    </div>
+</body>
+</html>

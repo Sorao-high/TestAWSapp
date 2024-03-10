@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>クイズ</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>クイズ</h1>
+        </div>
+    </header>
+    <div class="content container">
+        <div class="question">
+            <h2>{{ question.question_text }}</h2>
+            {% if question.image %}
+                <img src="{{ question.image.url }}" alt="Question Image">
+            {% endif %}
+        </div>
+        <form method="post" class="choices">
+            {% csrf_token %}
+            {% for choice in choices %}
+                <label class="choice">
+                    <input type="radio" name="answer" value="{{ choice }}" required> {{ choice }}
+                </label><br>
+            {% endfor %}
+            <button type="submit">回答する</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Quiz App</title>
+    <link rel="stylesheet" href="{% static 'AWSapp/static/css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <!-- ロゴ画像のパスを修正 -->
+            <img src="/media/img/logo.JPG" style="width: 200px; height: auto;">
+            <h1>クイズアプリへようこそ！</h1>
+        </div>
+    </header>
+    <div class="content container">
+        <a href="{% url 'quiz' 1 %}">クイズを始める</a>
+    </div>
+</body>
+</html>
+
+
