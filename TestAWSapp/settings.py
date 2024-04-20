@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS') 
 
 
 # Application definition
@@ -85,15 +85,6 @@ WSGI_APPLICATION = 'TestAWSapp.wsgi.application'
 
 DATABASES = {
 
-#    'default':{
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': 'TestAWSapp_db',
-#        'USER': 'root',
-#        'PASSWORD': 'GYperelman06!',
-#        'HOST': 'localhost',
-#        'PORT': '3306',
-#    }
-
  'default': {
         'ENGINE': env('ENGINE'),  # データベースエンジン
         'NAME': env('NAME'),  # データベース名
@@ -142,7 +133,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+# AWS settings
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = env('AWS_S3_REGION_NAME')
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+
 STATIC_URL = '/static/'
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{env("AWS_STATIC_LOCATION")}/'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{env("AWS_MEDIA_LOCATION")}/'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'AWSapp.storage_backends.MediaStorage'
 
 # メディアファイルのルートディレクトリ
 MEDIA_ROOT = BASE_DIR / 'media'
