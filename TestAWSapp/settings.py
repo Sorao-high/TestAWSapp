@@ -26,12 +26,20 @@ env.read_env(os.path.join(BASE_DIR, '.env')) #追記
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+#開発環境用
 SECRET_KEY = env('SECRET_KEY')
+
+DEBUG = True
+
+ALLOWED_HOSTS = []
+
+#本番環境用
+'''
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG')
+DEBUG = Faulse
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS') 
+'''
 
 
 # Application definition
@@ -83,9 +91,26 @@ WSGI_APPLICATION = 'TestAWSapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
 
- 'default': {
+
+    #開発環境用
+DATABASES = {
+    'default':{
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'TestAWSapp',
+        'USER': 'root',
+        'PASSWORD': 'Pita1236',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+
+
+
+#本番環境用
+'''
+DATABASES = {
+    'default': {
         'ENGINE': env('ENGINE'),  # データベースエンジン
         'NAME': env('NAME'),  # データベース名
         'USER': env('USER'),  # データベースユーザー
@@ -93,8 +118,9 @@ DATABASES = {
         'HOST': env('HOST'),  # データベースホスト
         'PORT': env('PORT'),  # データベースポート
     }
-
 }
+'''    
+
 
 
 # Password validation
@@ -133,6 +159,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+
+'''
 # AWS settings
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
@@ -140,7 +168,6 @@ AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_REGION_NAME = env('AWS_S3_REGION_NAME')
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
 
-STATIC_URL = '/static/'
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{env("AWS_STATIC_LOCATION")}/'
@@ -148,9 +175,14 @@ MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{env("AWS_MEDIA_LOCATION")}/'
 
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'AWSapp.storage_backends.MediaStorage'
+'''
 
 # メディアファイルのルートディレクトリ
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # メディアファイルへのURL
 MEDIA_URL = '/media/'
+
+STATIC_URL = '/static/'
+
+
